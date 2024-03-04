@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 
 const userModel = mongoose.Schema({
     name : {type : String, required: true},  // username of the user
-    email : { type: String , required : true},
+    email : { type: String , required : true, unique: true},
     password : {type: String, required : true},
     pic : {
-        type : String, 
-        required : true,
+        type : String,
         default : "https://th.bing.com/th/id/OIP.fqSvfYQB0rQ-6EG_oqvonQHaHa?rs=1&pid=ImgDetMain",
     },
 },
