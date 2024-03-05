@@ -5,7 +5,8 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios'; // Import the axios package
 
 const Signup = () => {
-  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -15,7 +16,8 @@ const Signup = () => {
   const toast = useToast();
   const history = useHistory();
 
-  const handleClick = () => setShow(!show);
+  const handleClick1 = () => setShow1(!show1);
+  const handleClick2 = () => setShow2(!show2);
 
   const postDetails = (pics) => {
     setLoading(true);
@@ -107,7 +109,7 @@ const Signup = () => {
         console.log(error);
         toast({
           title: 'Error occurred during signup! Please try again',
-          description: `${error}`,
+          description: `Error may occur due to the following reason: User with the same mail id exists${error}`,
           status: 'warning',
           position: 'top',
           isClosable: true,
@@ -156,14 +158,14 @@ const Signup = () => {
       <FormLabel>Password</FormLabel>
       <InputGroup>
         <Input
-          type={show ? "text" : "password"}
+          type={show1 ? "text" : "password"}
           placeholder='Enter your password'
           onChange={(e) => setPassword(e.target.value)}
         >
         </Input>
         <InputRightElement width='4.5rem'>
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
-            {show ? "Hide" : "Show"}
+          <Button h="1.75rem" size="sm" onClick={handleClick1}>
+            {show1 ? "Hide" : "Show"}
           </Button>
         </InputRightElement>
       </InputGroup>
@@ -174,14 +176,14 @@ const Signup = () => {
       <FormLabel>Confirm Password</FormLabel>
       <InputGroup>
         <Input
-          type={show ? "text" : "password"}
+          type={show2 ? "text" : "password"}
           placeholder='Re-enter your password'
           onChange={(e) => setConfirmPassword(e.target.value)}
         >
         </Input>
         <InputRightElement width='4.5rem'>
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
-            {show ? "Hide" : "Show"}
+          <Button h="1.75rem" size="sm" onClick={handleClick2}>
+            {show2 ? "Hide" : "Show"}
           </Button>
         </InputRightElement>
       </InputGroup>

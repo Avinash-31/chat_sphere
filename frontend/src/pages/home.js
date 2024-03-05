@@ -63,7 +63,7 @@ const Home = () => {
                     Chat Sphere
                 </Text>
             </Box>
-            <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
+            <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px" marginBottom='2rem'>
                 {/* Render your custom tabs component */}
                 <CustomTabs />
                 {/* Add more content as needed */}

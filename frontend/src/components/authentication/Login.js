@@ -1,17 +1,66 @@
 import { useState, React } from 'react';
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
+import axios from 'axios';
+import { useToast } from '@chakra-ui/react';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [show, setShow] = useState(false);
+  const [loading,setLoading] = useState(false);
+  const toast = useToast();
+  const history = useHistory();
 
   const handleClick = () => {
     setShow(!show)
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
+    setLoading(true);
+    if(!email || !password){
+      toast({
+        title: 'Please enter all the details!.',
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+      return;
+    }
 
+    try {
+      const config = {
+        header : {
+          "Content-type" : "application/json",
+        },
+      };
+
+      const {data} = await axios.post("/api/user/login",{email,password},config);
+
+      toast({
+        title : "Logged in successfully",
+        description : `Welcome ${data.name}`,
+        status : "success",
+        duration : 5000,
+        isClosable : true,
+      });
+
+      localStorage.setItem("userInfo",JSON.stringify(data));
+      setLoading(false);
+      history.push('/chats');
+    } catch (error) {
+      toast({
+        title : "Invalid Credentials",
+        description : `Error : ${error}`,
+        status : "warning",
+        duration : 5000,
+        isClosable : true,
+        position : "top",
+      });
+      setLoading(false);
+    }
   };
 
   const guestClick = () =>{
@@ -22,23 +71,25 @@ const Login = () => {
 
   return <VStack spacing='5px' color='black'>
 
-    <FormControl id='log_email' isRequired>
+    <FormControl id='email' isRequired>
       <FormLabel>Email</FormLabel>
       <Input
         type='email'
         placeholder='Enter your email'
+        value = {email}
         onChange={(e) => setEmail(e.target.value)}
       >
       </Input>
     </FormControl>
 
 
-    <FormControl id='log_password' isRequired>
+    <FormControl id='password' isRequired>
       <FormLabel>Password</FormLabel>
       <InputGroup>
         <Input
           type={show ? "text" : "password"}
           placeholder='Enter your password'
+          value = {password}
           onChange={(e) => setPassword(e.target.value)}
         >
         </Input>
@@ -55,6 +106,7 @@ const Login = () => {
       width='100%'
       style={{ marginTop: 15 }}
       onClick={submitHandler}
+      isLoading={loading}
     >
       Login
 

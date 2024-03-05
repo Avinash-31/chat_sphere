@@ -19,11 +19,12 @@ const Chat = () => {
 
   return (
     <div>
-      {chats.map((chat) => (
+      <h1>Chats</h1>
+      {/* {chats.map((chat) => (
         <div key={chat.chatId}>
           {chat.chatName}
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };
