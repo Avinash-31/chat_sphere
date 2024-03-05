@@ -1,6 +1,9 @@
 import { useState, React } from 'react'
 import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/react';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios'; // Import the axios package
+
 const Signup = () => {
   const [show, setShow] = useState(false);
   const [name, setName] = useState();
@@ -10,6 +13,7 @@ const Signup = () => {
   const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const history = useHistory();
 
   const handleClick = () => setShow(!show);
 
@@ -26,36 +30,102 @@ const Signup = () => {
       return;
     }
 
-    if(pics.type === "image/jpeg" || pics.type === "image/png" || pics.type === "image/jpg" || pics.type === "image/webp"){
+    if (pics.type === "image/jpeg" || pics.type === "image/png" || pics.type === "image/jpg" || pics.type === "image/webp") {
       const data = new FormData();
-      data.append("file",pics);
-      data.append("upload_preset","chat_sphere");
-      data.append("cloud_name","chatsphere");
-      fetch("https://api.cloudinary.com/v1_1/chatsphere/image/upload",{
-        method : "post",
-        body : data,
-        }).then(res=>res.json()).then((data)=>{
-          setPic(data.url.toString());
-          setLoading(false);
-          console.log(`Image uploaded successfully : ${data.url.toString()}`);
-        }).catch(err=>{
-          console.log(err);
-          setLoading(false);
-        });
-      }else{
+      data.append("file", pics);
+      data.append("upload_preset", "chat_sphere");
+      data.append("cloud_name", "chatsphere");
+      fetch("https://api.cloudinary.com/v1_1/chatsphere/image/upload", {
+        method: "post",
+        body: data,
+      }).then(res => res.json()).then((data) => {
+        setPic(data.url.toString());
         setLoading(false);
-        toast({
-          title: 'Please select a valid image!.',
-          status: 'warning',
-          duration: 9000,
-          isClosable: true,
-          position: "bottom",
-        });
-        return;
-      };
+        console.log(`Image uploaded successfully : ${data.url.toString()}`);
+      }).catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
+      toast({
+        title: 'Please select a valid image!.',
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    };
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
+    setLoading(true);
+    if (!name || !email || !password || !confirmPassword) {
+      toast({
+        title: 'Please enter all the details!.',
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+      setLoading(false);
+      return;
+    }
+    //Check password match
+    if (password !== confirmPassword) {
+      toast({
+        title: 'Passwords do not match!',
+        isClosable: 'true',
+        position: 'top',
+        duration: 9000,
+        status: 'warning',
+      });
+      return;
+    }
+
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      console.log(`Name : ${name} Email : ${email} Password : ${password} Pic : ${pic}`);
+      try {
+        const { data } = await axios.post("/api/user", { name, email, password, pic }, config); // Use axios to make the POST request    
+        toast({
+          title: 'Registration Successful!',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        setLoading(false);
+        history.push('/chats');
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: 'Error occurred during signup! Please try again',
+          description: `${error}`,
+          status: 'warning',
+          position: 'top',
+          isClosable: true,
+          duration: 9000,
+        });
+        setLoading(false);
+      }
+    } catch (error) {
+      toast({
+        title: 'Error occured during sigup! Please try again',
+        description:`${error}`,
+        status: 'warning',
+        position: 'top',
+        isClosable : true,
+        duration : 9000,
+      });
+      setLoading(false);
+    };
 
   };
 

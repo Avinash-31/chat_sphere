@@ -7,7 +7,7 @@ const userModel = mongoose.Schema({
     password : {type: String, required : true},
     pic : {
         type : String,
-        default : "https://th.bing.com/th/id/OIP.fqSvfYQB0rQ-6EG_oqvonQHaHa?rs=1&pid=ImgDetMain",
+        default : "https://planetsains.com/wp-content/uploads/2022/09/anonymous-avatar-icon-25.png",
     },
 },
 {
