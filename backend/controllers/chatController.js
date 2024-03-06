@@ -130,4 +130,45 @@ const renameGroup = asyncHandler(async(req,res)=>{
     }
 });
 
-module.exports = {accessChat,getChats,createGroup,renameGroup};
+const removeFromGroup = asyncHandler(async(req,res)=>{
+    const {chatId,userId} = req.body;
+
+    if(!chatId || !userId){
+        return res.status(400).send({message : "Please fill all the details"});
+    }
+
+
+});
+
+const addToGroup = asyncHandler(async(req,res)=>{
+    const {chatId,userId} = req.body;
+
+    // if not chat id or user id is provided send error message
+    if(!chatId || !userId){
+        return res.status(400).send({message : "Please fill all the details"});
+    }
+
+    // find the chat by id and add the user to the chat
+    try {
+        const chat = await Chat.findById(chatId);
+
+        if(!chat){
+            res.status(404);
+            throw new Error("Chat not found");
+        }
+
+        chat.users.push(userId);
+        await chat.save();
+
+        const fullChat = await Chat.findOne({_id:chat._id})
+        .populate("users","-password")
+        .populate("groupAdmin","-password");
+
+        res.status(200).send(fullChat);
+    } catch (error) {
+        res.status(400);
+        throw new Error(`User not added to the group : ${error}`);
+    }
+});
+
+module.exports = {accessChat,getChats,createGroup,renameGroup,removeFromGroup,addToGroup};
