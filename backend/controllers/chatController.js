@@ -42,4 +42,28 @@ const accessChat = asyncHandler(async(req,res,)=>{
     }
 });
 
-module.exports = {accessChat};
+const getChats = asyncHandler(async(req,res)=>{
+    try {
+        const results = await Chat.find({
+            users:{$elemMatch:{$eq:req.user._id}},
+        })
+        .populate("users","-password")
+        .populate("groupAdmin","-password")
+        .populate("latestMessages")
+        .sort({updatedAt:-1});
+
+        await User.populate(results,{
+            path:'latestMessages.sender',
+            select:'name pic email',
+        });
+
+        res.status(200).send(results);
+    } catch (error) {
+        res.status(400);
+        throw new Error(`Chats not found : ${error}`);
+    }
+});
+
+module.exports = {accessChat,getChats};
+
+module.exports = {accessChat,getChats};
