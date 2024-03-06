@@ -58,4 +58,25 @@ const authUser = asyncHandler(async (req,res)=>{
     }
 });
 
-module.exports = {registerUser,authUser};
+// /api/users?search=avinash - givning queries
+const allUsers = asyncHandler(async(req,res)=>{
+    const key = req.query.search?{
+        $or:[{
+            name:{
+                $regex:req.query.search,
+                $options:"i",
+            }
+        },{
+            email:{
+                $regex:req.query.search,
+                $options:"i",
+            }
+        }]
+    }:{}; // if search is not there then empty object
+
+    const Users = await User.find(key).find({_id:{$ne:req.user._id}}); // finding all the users except the logged in user
+    // console.log(key);
+    res.send(Users);
+});
+
+module.exports = {registerUser,authUser,allUsers};
