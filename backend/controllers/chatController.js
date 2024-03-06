@@ -80,7 +80,7 @@ const createGroup = asyncHandler(async(req,res)=>{
 
     try {
         const groupChat = await Chat.create({
-            chatUser : req.body.name,
+            chatName : req.body.name,
             users:users,
             isGroupChat:true,
             groupAdmin : req.user,
@@ -98,5 +98,36 @@ const createGroup = asyncHandler(async(req,res)=>{
     }
 });
 
+const renameGroup = asyncHandler(async(req,res)=>{
+    const {chatId,chatName} = req.body;
 
-module.exports = {accessChat,getChats,createGroup};
+    if(!chatId || !chatName){
+        return res.status(400).send({message : "Please fill all the details"});
+    }
+
+    try {
+        const chat = await Chat.findByIdAndUpdate(
+            chatId,
+            {
+                chatName,
+            },
+            {
+                new : true,
+            }
+        )
+        .populate("users","-password")
+        .populate("groupAdmin","-password");
+
+        if(!chat){
+            res.status(404);
+            throw new Error("Chat not found");
+        }else{
+            res.json(chat);
+        }
+    } catch (error) {
+        res.status(400);
+        throw new Error(`Group not renamed : ${error}`);
+    }
+});
+
+module.exports = {accessChat,getChats,createGroup,renameGroup};
