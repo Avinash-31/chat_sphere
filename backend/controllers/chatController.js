@@ -137,6 +137,26 @@ const removeFromGroup = asyncHandler(async(req,res)=>{
         return res.status(400).send({message : "Please fill all the details"});
     }
 
+    try {
+        const chat = await Chat.findById(chatId);
+
+        if(!chat){
+            res.status(404);
+            throw new Error("Chat not found");
+        }
+
+        chat.users = chat.users.filter((id)=>id != userId);
+        await chat.save();
+
+        const fullChat = await Chat.findOne({_id:chat._id})
+        .populate("users","-password")
+        .populate("groupAdmin","-password");
+
+        res.status(200).send(fullChat);
+    } catch (error) {
+        res.status(400);
+        throw new Error(`User not removed from the group : ${error}`);
+    }
 
 });
 

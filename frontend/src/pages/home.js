@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Box, Text, Button, useTab, useMultiStyleConfig, Tabs, TabList, TabPanel, TabPanels } from "@chakra-ui/react";
 import Login from '../components/authentication/Login';
 import Signup from '../components/authentication/Signup';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Home = () => {
+    const history = useHistory();
+    useEffect(()=>{
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+        if(userInfo){
+            history.push("/chat");
+        }
+    },[history]);
+    
     const CustomTabs = () => {
         const CustomTab = React.forwardRef((props, ref) => {
             // 1. Reuse the `useTab` hook
