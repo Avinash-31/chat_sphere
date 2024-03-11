@@ -7,13 +7,13 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 const Home = () => {
     const history = useHistory();
     useEffect(()=>{
-        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        const user = JSON.parse(localStorage.getItem("userInfo"));
 
-        if(userInfo){
+        if(user){
             history.push("/chat");
         }
     },[history]);
-    
+
     const CustomTabs = () => {
         const CustomTab = React.forwardRef((props, ref) => {
             // 1. Reuse the `useTab` hook

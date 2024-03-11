@@ -1,5 +1,5 @@
 import {createContext,useContext,useEffect,useState} from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom';
 
 const ChatContext = createContext();
 
@@ -24,8 +24,8 @@ const ChatProvider = ({children}) => {
 };
 
 // to make state accessible to other aaps
-export const ConstState = () =>{
-    useContext(ChatContext);
+export const ChatState = () =>{
+    return useContext(ChatContext);
 }
 
 

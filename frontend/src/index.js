@@ -9,13 +9,13 @@ import ChatProvider from './context/ChatProvider';
 // caht rpovider so that whatever state we create in context api will be accessible to the whole of the app
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ChatProvider>
-    <BrowserRouter>
-    <ChakraProvider>
-    <App />
-    </ChakraProvider>
-    </BrowserRouter>
-  </ChatProvider>
+  <BrowserRouter>
+    <ChatProvider>
+      <ChakraProvider>
+        <App />
+      </ChakraProvider>
+    </ChatProvider>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
