@@ -1,7 +1,8 @@
-import { ModalOverlay, useDisclosure, ModalBody, Button, Modal, ModalContent, ModalHeader, ModalCloseButton, Text, ModalFooter, Card, CardBody, Image, Stack, Heading, Divider, CardFooter, ButtonGroup } from '@chakra-ui/react'
+import { ViewIcon } from '@chakra-ui/icons';
+import { ModalOverlay, useDisclosure, ModalBody, Button, Modal, ModalContent, ModalHeader, ModalCloseButton, Text, ModalFooter, Card, CardBody, Image, Stack, Heading, Divider, CardFooter, ButtonGroup, IconButton } from '@chakra-ui/react'
 import React, { useState } from 'react';
 
-const ProfileModel = ({ user, children }) => {
+const ProfileModal = ({ user, children }) => {
     const OverlayOne = () => (
         <ModalOverlay
             bg='blackAlpha.300'
@@ -13,6 +14,11 @@ const ProfileModel = ({ user, children }) => {
     const [overlay, setOverlay] = React.useState(<OverlayOne />)
     return (
         <>
+            {/* {children?(
+                <span onClick={onOpen}>{children}</span>
+            ):(
+                <IconButton d={{base : "flex"}} icon = {<ViewIcon/>} onClick={onOpen} />
+            )} */}
             <Button
                 width='100%'
                 backgroundColor='white'
@@ -60,4 +66,4 @@ const ProfileModel = ({ user, children }) => {
 }
 
 
-export default ProfileModel;
+export default ProfileModal;
