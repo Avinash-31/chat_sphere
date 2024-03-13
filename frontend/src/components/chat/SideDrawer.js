@@ -17,6 +17,7 @@ const SideDrawer = () => {
     const btnRef = React.useRef()
     const history = useHistory();
     const toast = useToast();
+    const {user,setSelectedChat,chats,setChats} = ChatState();
 
     // logout
     const logoutHandler = () => {
@@ -64,9 +65,29 @@ const SideDrawer = () => {
 
     // access chat function
     const accessChat = async (userId) => {
+        try {
+            setLoadingChat(true);
+            const config = {
+                headers:{
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${user.token}`
+                },
+            };
+            const {data} = await axios.post("/api/chat", {userId}, config);
+            setSelectedChat(data);
+            setLoadingChat(false);
+            onClose();
+        } catch (error) {
+            toast ({
+                title: "Error in accessing chat",
+                description: error,
+                status : "error",
+                duration : 5000,
+                isClosable : true,
+                position : 'top',
+            });
+        };
     };
-
-    const { user } = ChatState();
     return <>
         <Box
             display='flex'
@@ -79,7 +100,7 @@ const SideDrawer = () => {
         >
             <Tooltip label="Search users to chat" hasArrow placement='bottom'>
                 <Button ref={btnRef} colorScheme='teal' onClick={onOpen} variant="ghost">
-                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <i className="fa fa-search" aria-hidden="true"></i>
                     <Text d={{ base: "none", md: "flex" }} px={4} fontSize='1.5xl'>Search User</Text> {/* in small screens Search will not be visible */}
                 </Button>
             </Tooltip>
