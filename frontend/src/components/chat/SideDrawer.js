@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, Toast, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
+import { Avatar, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Spinner, Text, Toast, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
 import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react'
 import { ChatState } from '../../context/ChatProvider';
@@ -74,6 +74,9 @@ const SideDrawer = () => {
                 },
             };
             const {data} = await axios.post("/api/chat", {userId}, config);
+            if(!chats.find((chat) => chat._id === data._id)){
+                setChats([data,...chats]);
+            }
             setSelectedChat(data);
             setLoadingChat(false);
             onClose();
@@ -159,6 +162,7 @@ const SideDrawer = () => {
                             ))
                         )
                     }
+                    {loadingChat && <Spinner ml='auto' display='flex' />}
                 </DrawerBody>
 
                 <DrawerFooter>

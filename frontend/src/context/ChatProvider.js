@@ -7,7 +7,7 @@ const ChatContext = createContext();
 const ChatProvider = ({children}) => {
     const [user,setUser] = useState();
     const [selectedChat,setSelectedChat] = useState(); // to store selected chat [user or group chat
-    const [chats,setChats] = useState();
+    const [chats,setChats] = useState([]);
     const history = useHistory(); // to navigate between pages
 
     useEffect(() => {

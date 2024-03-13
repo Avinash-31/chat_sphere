@@ -34,8 +34,8 @@ const Chat = () => {
         h="90vh"
         p="10px"
       >
-        {user && <MyChats />}
         {user && <ChatBox />}
+        {user && <MyChats />}
 
       </Box>
     </div>
