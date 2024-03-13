@@ -5,6 +5,7 @@ import axios from 'axios';
 import { AddIcon } from '@chakra-ui/icons';
 import ChatLoading from './chat/ChatLoading';
 import GetSender from '../config/ChatLogic';
+import GroupChatModal from './chat/GroupChatModal';
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
@@ -62,13 +63,16 @@ const MyChats = () => {
       alignItems='center'
     >
       My Chats
-      <Button
-        display='flex'
-        fontSize={{ base: "17px", md: "10px", lg: '17px' }}
-        rightIcon={<AddIcon />}
-      >
-        New Group Chat
-      </Button>
+      <GroupChatModal>
+
+        <Button
+          display='flex'
+          fontSize={{ base: "17px", md: "10px", lg: '17px' }}
+          rightIcon={<AddIcon />}
+        >
+          New Group Chat
+        </Button>
+      </GroupChatModal>
     </Box>
     <Box
       display='flex'
@@ -79,33 +83,33 @@ const MyChats = () => {
       borderRadius='lg'
       overflowY='hidden'
     >
-        {chats ? (
-          <Stack overflowY='scroll'>
-            {chats.map((chat) => (
-          <Box
-            onClick={() => setSelectedChat(chat)}
-            cursor='pointer'
-            w='100%'
-            bg={selectedChat === chat ? 'grey' : '#00000029'}
-            color={selectedChat === chat ? 'white' : 'black'}
-            px={3}
-            py={2}
-            display='flex'
-            justifyContent='center'
-            key={chat._id}
-            borderRadius='1rem'
-            _hover={{ bg: 'grey',color: 'white' }} // Add this line to change background on hover
-          >
-            <Text>
-              {!chat.isGroupChat ?user && GetSender(loggedUser, chat.users) : chat.chatName}
-            </Text>
-          </Box>
-            ))}
-          </Stack>
-        ) : (<ChatLoading />)}
+      {chats ? (
+        <Stack overflowY='scroll'>
+          {chats.map((chat) => (
+            <Box
+              onClick={() => setSelectedChat(chat)}
+              cursor='pointer'
+              w='100%'
+              bg={selectedChat === chat ? 'grey' : '#00000029'}
+              color={selectedChat === chat ? 'white' : 'black'}
+              px={3}
+              py={2}
+              display='flex'
+              justifyContent='center'
+              key={chat._id}
+              borderRadius='1rem'
+              _hover={{ bg: 'grey', color: 'white' }} // Add this line to change background on hover
+            >
+              <Text>
+                {!chat.isGroupChat ? user && GetSender(loggedUser, chat.users) : chat.chatName}
+              </Text>
+            </Box>
+          ))}
+        </Stack>
+      ) : (<ChatLoading />)}
 
-          </Box>
-        </Box>
+    </Box>
+  </Box>
 }
 
 export default MyChats
