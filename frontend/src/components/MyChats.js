@@ -4,10 +4,10 @@ import { Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import { AddIcon } from '@chakra-ui/icons';
 import ChatLoading from './chat/ChatLoading';
-import GetSender from '../config/ChatLogic';
+import {GetSender} from '../config/ChatLogic';
 import GroupChatModal from './chat/GroupChatModal';
 
-const MyChats = () => {
+const MyChats = ({fetchChats}) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, chats, setChats, user, setSelectedChat } = ChatState();
   const toast = useToast();
@@ -40,7 +40,7 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     getChats();
-  }, [])
+  }, [fetchChats])
 
   return <Box
     display={{ base: selectedChat ? "none" : "flex", md: "flex" }}

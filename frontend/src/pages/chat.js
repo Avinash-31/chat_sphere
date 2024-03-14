@@ -20,7 +20,7 @@ const Chat = () => {
   // useEffect(() => {
   //   fetchChats();
   // }, []);
-
+  const [fetchAgain,setFetchAgain] = useState(false);
   const { user } = ChatState();
   return (
 
@@ -34,8 +34,8 @@ const Chat = () => {
         h="90vh"
         p="10px"
       >
-        {user && <ChatBox />}
-        {user && <MyChats />}
+        {user && <ChatBox fetchAgain = {fetchAgain} setFetchAgain = {setFetchAgain} />}
+        {user && <MyChats fetchAgain = {fetchAgain}  />}
 
       </Box>
     </div>
