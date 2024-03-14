@@ -6,13 +6,13 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Home = () => {
     const history = useHistory();
-    useEffect(()=>{
+    useEffect(() => {
         const user = JSON.parse(localStorage.getItem("userInfo"));
 
-        if(user){
+        if (user) {
             history.push("/chat");
         }
-    },[history]);
+    }, [history]);
 
     const CustomTabs = () => {
         const CustomTab = React.forwardRef((props, ref) => {
@@ -63,17 +63,28 @@ const Home = () => {
                 display="flex"
                 justifyContent="center"
                 p={3}
-                bg="white"
+                bg='#d8d8d854'
+                boxShadow='0 4px 30px rgba(0, 0, 0, 0.1)'
+                backdropBlur={5}
+                border='1px solid #d8d8d854'
                 w="100%"
                 m="40px 0 15px 0"
                 borderRadius="lg"
                 borderWidth="1px"
             >
-                <Text fontSize="2rem" fontFamily="monoton">
+                <Text fontSize="2rem" color='white' fontFamily="monoton">
                     Chat Sphere
                 </Text>
             </Box>
-            <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px" marginBottom='2rem'>
+            <Box bg='#d8d8d854'
+                boxShadow='0 4px 30px rgba(0, 0, 0, 0.1)'
+                backdropBlur={5}
+                border='1px solid #d8d8d854'
+                w="100%"
+                p={4}
+                borderRadius="lg"
+                borderWidth="1px"
+                marginBottom='2rem'>
                 {/* Render your custom tabs component */}
                 <CustomTabs />
                 {/* Add more content as needed */}

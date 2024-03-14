@@ -47,7 +47,10 @@ const MyChats = ({fetchChats}) => {
     flexDir="column"
     alignItems="center"
     p={3}
-    bg='white'
+    bg='#d8d8d854'
+    boxShadow='0 4px 30px rgba(0, 0, 0, 0.1)'
+    backdropBlur={5}
+    border='1px solid #d8d8d854'
     justifyContent='space-between'
     w={{ base: "100%", md: "25%" }}
     borderRadius='lg'

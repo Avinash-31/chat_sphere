@@ -6,22 +6,25 @@
   font-style: normal;
 }
 
-.App{
+.App {
   min-height: 100vh;
   display: flex;
-  background-color: rgba(0, 0, 0, 0.516);
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
 }
 
-.authButton{
+.authButton {
   width: 50%;
-  border: 1px solid rgb(0, 0, 0);
+  border: 1px solid rgb(240, 236, 236);
   border-radius: 1rem;
+  background-color: black;
+  color: aliceblue;
 }
 
-.authButton:hover{
+.authButton:hover {
   background-color: rgba(0, 0, 0, 0.292);
 }
 
-.css-1u2cvaz{
+.css-1u2cvaz {
   align-items: center !important;
 }

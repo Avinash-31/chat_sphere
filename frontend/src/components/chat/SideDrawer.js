@@ -96,19 +96,25 @@ const SideDrawer = () => {
             display='flex'
             justifyContent='space-between'
             alignItems='center'
-            bg='white'
-            w='100%'
-            p='5px 10px'
+            w='99%'
             borderWidth='0.5rem'
+            borderRadius= 'lg'
+            my={2}
+            mx='0.5%'
+            px={5}
+            bg='#d8d8d854'
+            boxShadow='0 4px 30px rgba(0, 0, 0, 0.1)'
+            backdropBlur={5}
+            border='1px solid #d8d8d854'
         >
             <Tooltip label="Search users to chat" hasArrow placement='bottom'>
-                <Button ref={btnRef} colorScheme='teal' onClick={onOpen} variant="ghost">
+                <Button ref={btnRef} color='wheat' onClick={onOpen} variant="ghost">
                     <i className="fa fa-search" aria-hidden="true"></i>
-                    <Text d={{ base: "none", md: "flex" }} px={4} fontSize='1.5xl'>Search User</Text> {/* in small screens Search will not be visible */}
+                    <Text color='wheat' d={{ base: "none", md: "flex" }} px={4} fontSize='1.5xl'>Search User</Text> {/* in small screens Search will not be visible */}
                 </Button>
             </Tooltip>
 
-            <Text fontSize='2xl' fontFamily='monoton'>
+            <Text color='white' fontSize='3xl' fontFamily='monoton'>
                 Chat Sphere
             </Text>
             <div>
@@ -119,17 +125,17 @@ const SideDrawer = () => {
                     {/* <MenuList></MenuList> */}
                 </Menu>
                 <Menu>
-                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                    <MenuButton bg='#d8d8d854' as={Button} rightIcon={<ChevronDownIcon />}>
                         <Avatar size='sm' name={user.name} src={user.pic} />
                     </MenuButton>
-                    <MenuList>
+                    <MenuList bg='#d8d8d854' backdropBlur={10}>
 
 
                         <ProfileModal user={user} />
 
 
                         <MenuDivider />
-                        <MenuItem width='100%' fontWeight='500' justifyContent='center' onClick={logoutHandler}>LogOut</MenuItem>
+                        <MenuItem bg='#d8d8d854' backdropBlur={10} width='100%' fontWeight='500' justifyContent='center' onClick={logoutHandler}>LogOut</MenuItem>
                     </MenuList>
                 </Menu>
             </div>
