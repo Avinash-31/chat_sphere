@@ -19,19 +19,17 @@ const InfoModal = ({ user, children }) => {
             ):(
                 <IconButton d={{base : "flex"}} icon = {<ViewIcon/>} onClick={onOpen} />
             )} */}
-            <Button
-                width='100%'
-                backgroundColor='white'
+
+            <IconButton
+                display={{ base: 'flex', md: 'flex' }}
+                height='100%'
+                bg='white'
+                icon={<InfoOutlineIcon />}
                 onClick={() => {
                     setOverlay(<OverlayOne />)
                     onOpen()
                 }}
-            >
-                <IconButton
-                    display={{ base: 'flex', md: 'flex' }}
-                    icon={<InfoOutlineIcon />}
-                ></IconButton>
-            </Button>
+            ></IconButton>
             <Modal isCentered isOpen={isOpen} onClose={onClose}>
                 {overlay}
                 <ModalContent>
