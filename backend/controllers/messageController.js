@@ -25,7 +25,7 @@ const sendMessage=expressAsyncHandler(async(req,res)=>{
             select: "name pic email",
         });
 
-        var temp =await Chat.findByIdAndUpdate(req.body.chatId,{
+        await Chat.findByIdAndUpdate(req.body.chatId,{
             latestMessages: message,
         });
         res.json(message);
@@ -35,4 +35,19 @@ const sendMessage=expressAsyncHandler(async(req,res)=>{
     }
 });
 
-module.exports = {sendMessage};
+const allMessages = expressAsyncHandler(async(req,res)=>{
+    const chatId = req.params.chatId;
+    if(!chatId){
+        res.status(400);
+        throw new Error("Please provide chatId");
+    }
+    try {
+        var messages = await Message.find({chat:req.params.chatId}).populate("sender","name pic email").populate("chat");
+        res.json(messages);
+    } catch (error) {
+        res.status(400);
+        throw new Error(error.message);
+    }
+});
+
+module.exports = {sendMessage, allMessages};
