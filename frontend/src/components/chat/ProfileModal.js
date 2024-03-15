@@ -21,7 +21,9 @@ const ProfileModal = ({ user, children }) => {
             )} */}
             <Button
                 width='100%'
-                backgroundColor='#d8d8d854'
+                backgroundColor=''
+                display='flex'
+                justifyContent='center'
                 onClick={() => {
                     setOverlay(<OverlayOne />)
                     onOpen()

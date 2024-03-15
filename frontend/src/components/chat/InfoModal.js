@@ -23,7 +23,9 @@ const InfoModal = ({ user, children }) => {
             <IconButton
                 display={{ base: 'flex', md: 'flex' }}
                 height='100%'
-                bg='white'
+                bg='rgba(0, 0, 0,0.1)'
+                color='white'
+                _hover={{ bg: 'rgba(0, 0, 0, 1)' }}
                 icon={<InfoOutlineIcon />}
                 onClick={() => {
                     setOverlay(<OverlayOne />)

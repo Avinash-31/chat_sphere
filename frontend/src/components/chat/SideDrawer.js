@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Spinner, Text, Toast, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
-import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { BellIcon, ChevronDownIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react'
 import { ChatState } from '../../context/ChatProvider';
 import ChatLoading from '../chat/ChatLoading';
@@ -17,7 +17,7 @@ const SideDrawer = () => {
     const btnRef = React.useRef()
     const history = useHistory();
     const toast = useToast();
-    const {user,setSelectedChat,chats,setChats} = ChatState();
+    const { user, setSelectedChat, chats, setChats } = ChatState();
 
     // logout
     const logoutHandler = () => {
@@ -68,26 +68,26 @@ const SideDrawer = () => {
         try {
             setLoadingChat(true);
             const config = {
-                headers:{
+                headers: {
                     "Content-type": "application/json",
                     Authorization: `Bearer ${user.token}`
                 },
             };
-            const {data} = await axios.post("/api/chat", {userId}, config);
-            if(!chats.find((chat) => chat._id === data._id)){
-                setChats([data,...chats]);
+            const { data } = await axios.post("/api/chat", { userId }, config);
+            if (!chats.find((chat) => chat._id === data._id)) {
+                setChats([data, ...chats]);
             }
             setSelectedChat(data);
             setLoadingChat(false);
             onClose();
         } catch (error) {
-            toast ({
+            toast({
                 title: "Error in accessing chat",
                 description: error,
-                status : "error",
-                duration : 5000,
-                isClosable : true,
-                position : 'top',
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: 'top',
             });
         };
     };
@@ -98,19 +98,19 @@ const SideDrawer = () => {
             alignItems='center'
             w='99%'
             borderWidth='0.5rem'
-            borderRadius= 'lg'
+            borderRadius='lg'
             my={2}
             mx='0.5%'
             px={5}
-            bg='#d8d8d854'
-            boxShadow='0 4px 30px rgba(0, 0, 0, 0.1)'
-            backdropBlur={5}
-            border='1px solid #d8d8d854'
+            bg='rgba(0, 0, 0, 0)'
+            boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+            backdropFilter='blur(25px)'
+            border='1px solid rgba(0, 0, 0, 0.1)'
         >
             <Tooltip label="Search users to chat" hasArrow placement='bottom'>
-                <Button ref={btnRef} color='wheat' onClick={onOpen} variant="ghost">
+                <Button ref={btnRef} color='white' onClick={onOpen} variant="ghost" _hover={{ bg: 'rgba(0, 0, 0, 0.1)' }}>
                     <i className="fa fa-search" aria-hidden="true"></i>
-                    <Text color='wheat' d={{ base: "none", md: "flex" }} px={4} fontSize='1.5xl'>Search User</Text> {/* in small screens Search will not be visible */}
+                    <Text color='white' d={{ base: "none", md: "flex" }} px={4} fontSize='1.5xl'>Search User</Text> {/* in small screens Search will not be visible */}
                 </Button>
             </Tooltip>
 
@@ -119,23 +119,29 @@ const SideDrawer = () => {
             </Text>
             <div>
                 <Menu>
-                    <MenuButton p={2}>
+                    <MenuButton
+                        color='white'
+                        p={2}>
                         <BellIcon fontSize='2xl' m={2} />
                     </MenuButton>
                     {/* <MenuList></MenuList> */}
                 </Menu>
                 <Menu>
-                    <MenuButton bg='#d8d8d854' as={Button} rightIcon={<ChevronDownIcon />}>
+                    <MenuButton
+                        as={Button}
+                        bg='rgba(0, 0, 0, 0)'
+                        boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+                        backdropFilter='blur(25px)'
+                        border='1px solid rgba(0, 0, 0, 0.1)'
+                        _hover={{ bg: 'rgba(0, 0, 0, 0.5)', border: '1px solid white' }}
+                        rightIcon={<ChevronLeftIcon color='white' />}>
                         <Avatar size='sm' name={user.name} src={user.pic} />
                     </MenuButton>
-                    <MenuList bg='#d8d8d854' backdropBlur={10}>
-
-
+                    <MenuList
+                    >
                         <ProfileModal user={user} />
-
-
                         <MenuDivider />
-                        <MenuItem bg='#d8d8d854' backdropBlur={10} width='100%' fontWeight='500' justifyContent='center' onClick={logoutHandler}>LogOut</MenuItem>
+                        <MenuItem backdropBlur={100} width='100%' fontWeight='500' justifyContent='center' onClick={logoutHandler}>LogOut</MenuItem>
                     </MenuList>
                 </Menu>
             </div>
@@ -148,31 +154,36 @@ const SideDrawer = () => {
             finalFocusRef={btnRef}
         >
             <DrawerOverlay />
-            <DrawerContent>
-                <DrawerCloseButton />
-                <DrawerHeader>Search users</DrawerHeader>
+            <DrawerContent
+                bg='rgba(0, 0, 0, 0)'
+                boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+                backdropFilter='blur(50px)'
+                border='1px solid rgba(0, 0, 0, 0.1)'>
+                <DrawerCloseButton color='white' />
+                <DrawerHeader color='white'>Search users</DrawerHeader>
 
                 <DrawerBody>
                     <Box display='flex' pb={2}>
-                        <Input placeholder='Search by name or email' mr={2} value={search} onChange={(e) => setSearch(e.target.value)} />
-                        <Button onClick={searchHandler}>Search</Button>
+                        <Input bg='rgba(0,0,0,0.2)' boxShadow='0 4px 30px rgba(0, 0, 0, 1)' color='white' placeholder='Search by name or email' mr={2} value={search} onChange={(e) => setSearch(e.target.value)} />
+                        <Button border='1px solid white' bg='rgba(0,0,0,0.2)' boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+                            backdropFilter='blur(30px)' _hover={{ bg: 'rgba(0,0,0,0.3)' }} color='white' onClick={searchHandler}>Search</Button>
                     </Box>
 
-                    { loading ? <ChatLoading /> :(
-                            searchResult?.map(user => (
-                                <UserListItem
-                                    key={user._id}
-                                    user={user}
-                                    handleFunction={() => accessChat(user._id)}
-                                />
-                            ))
-                        )
+                    {loading ? <ChatLoading /> : (
+                        searchResult?.map(user => (
+                            <UserListItem
+                                key={user._id}
+                                user={user}
+                                handleFunction={() => accessChat(user._id)}
+                            />
+                        ))
+                    )
                     }
                     {loadingChat && <Spinner ml='auto' display='flex' />}
                 </DrawerBody>
 
                 <DrawerFooter>
-                    <Button variant='outline' mr={3} onClick={onClose}>
+                    <Button backdropFilter='blur(30px)' _hover={{ bg: 'rgba(0,0,0,0.3)' }} color='white' variant='outline' mr={3} onClick={onClose}>
                         Cancel
                     </Button>
                 </DrawerFooter>

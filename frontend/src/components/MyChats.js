@@ -4,10 +4,10 @@ import { Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import { AddIcon } from '@chakra-ui/icons';
 import ChatLoading from './chat/ChatLoading';
-import {GetSender} from '../config/ChatLogic';
+import { GetSender } from '../config/ChatLogic';
 import GroupChatModal from './chat/GroupChatModal';
 
-const MyChats = ({fetchChats}) => {
+const MyChats = ({ fetchChats }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, chats, setChats, user, setSelectedChat } = ChatState();
   const toast = useToast();
@@ -47,10 +47,10 @@ const MyChats = ({fetchChats}) => {
     flexDir="column"
     alignItems="center"
     p={3}
-    bg='#d8d8d854'
-    boxShadow='0 4px 30px rgba(0, 0, 0, 0.1)'
-    backdropBlur={5}
-    border='1px solid #d8d8d854'
+    bg='rgba(0, 0, 0, 0.2)'
+    boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+    backdropFilter='blur(25px)'
+    border='1px solid rgba(0, 0, 0, 0.1)'
     justifyContent='space-between'
     w={{ base: "100%", md: "25%" }}
     borderRadius='lg'
@@ -62,6 +62,7 @@ const MyChats = ({fetchChats}) => {
       fontSize={{ base: "1rem", md: "1.5rem" }}
       display='flex'
       w='100%'
+      color='white'
       justifyContent='space-between'
       alignItems='center'
     >
@@ -70,8 +71,14 @@ const MyChats = ({fetchChats}) => {
 
         <Button
           display='flex'
+          color='white'
+          bg='rgba(0, 0, 0,0.1)'
+          boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+          backdropFilter='blur(25px)'
+          border='1px solid rgba(0, 0, 0, 0.1)'
           fontSize={{ base: "17px", md: "10px", lg: '17px' }}
           rightIcon={<AddIcon />}
+          _hover={{ bg: 'rgba(0, 0, 0, 0.5)' }}
         >
           New Group Chat
         </Button>
@@ -87,21 +94,23 @@ const MyChats = ({fetchChats}) => {
       overflowY='hidden'
     >
       {chats ? (
-        <Stack overflowY='scroll'>
+        <Stack overflowY='hidden'>
           {chats.map((chat) => (
             <Box
               onClick={() => setSelectedChat(chat)}
               cursor='pointer'
               w='100%'
-              bg={selectedChat === chat ? 'grey' : '#00000029'}
-              color={selectedChat === chat ? 'white' : 'black'}
+              color={selectedChat === chat ? 'white' : 'white'}
               px={3}
               py={2}
               display='flex'
               justifyContent='center'
               key={chat._id}
-              borderRadius='1rem'
-              _hover={{ bg: 'grey', color: 'white' }} // Add this line to change background on hover
+              borderRadius='lg'
+              bg={selectedChat === chat ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0,0,0,0)'}
+              backdropFilter='blur(25px)'
+              border='1px solid rgba(0, 0, 0, 0.1)'
+              _hover={{ bg: 'rgba(0, 0, 0, 0.5)', color: 'white' }} 
             >
               <Text>
                 {!chat.isGroupChat ? user && GetSender(loggedUser, chat.users) : chat.chatName}

@@ -9,9 +9,48 @@
 .App {
   min-height: 100vh;
   display: flex;
-  background: rgb(2, 0, 36);
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+  background: url('../bg.jpg');
+  background-size: cover;
+  overflow-y: hidden;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.281);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.App {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.css-1kfu8nn{
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  position: absolute;
+  backdrop-filter: blur(30px);
+  top:-3.5rem;
+  right: 1rem;
+}
+
+.css-nlo82a{
+  margin-left:2rem;
+}
+/* background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%); */
 
 .authButton {
   width: 50%;

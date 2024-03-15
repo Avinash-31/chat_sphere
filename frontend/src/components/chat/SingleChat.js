@@ -24,19 +24,26 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             width='100%'
                             height='100%'
                             justifyContent='space-between'
+                            bg='rgba(0, 0, 0,0.1)'
+                            color='white'
+                            borderRadius='lg'
                             fontSize='3xl'>
                             {!selectedChat.isGroupChat ? (
                                 <>
                                     <IconButton
                                         display={{ base: 'flex', md: 'flex' }}
                                         height='100%'
-                                        bg='white'
+                                        bg='rgba(0, 0, 0,0)'
+                                        color='white'
+                                        borderRadius='lg'
+                                        _hover={{ bg: 'rgba(0, 0, 0, 0.5)' }}
                                         icon={<ArrowBackIcon />}
                                         onClick={() => setSelectedChat("")}
                                     ></IconButton>
                                     {user && GetSender(user, selectedChat.users)}
                                     <Text
-                                        bg='white'
+                                        bg='rgba(0, 0, 0,0.1)'
+                                        boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
 
                                     >
                                         <InfoModal user={GetSenderData(user, selectedChat.users)} />
@@ -46,11 +53,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                 <IconButton
                                     display={{ base: 'flex', md: 'flex' }}
                                     height='100%'
-                                    bg='white'
+                                    bg='rgba(0, 0, 0,0)'
+                                    borderRadius='lg'
                                     icon={<ArrowBackIcon />}
                                     onClick={() => setSelectedChat("")}
                                 ></IconButton>
-                                {selectedChat.chatName}<UpdateGroupChatModal fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/></>}
+                                {selectedChat.chatName}<UpdateGroupChatModal fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} /></>}
 
                         </Text>
 
@@ -61,7 +69,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                         flexDir='column'
                         justifyContent='flex-end'
                         padding='2rem'
-                        bg='gray.100'
+                        bg='rgba(0, 0, 0,0.1)'
+                        boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+                        backdropFilter='blur(50px)'
+                        border='1px solid rgba(0, 0, 0, 0.1)'
                         borderRadius='lg'
                         w='98%'
                         position='relative'
@@ -78,6 +89,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     <Box
                         display='flex'
                         w='100%'
+                        color='white'
                         justifyContent='center'
                         alignItems='center'
                         h='100%'
