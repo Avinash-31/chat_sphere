@@ -28,7 +28,6 @@ const sendMessage=expressAsyncHandler(async(req,res)=>{
         var temp =await Chat.findByIdAndUpdate(req.body.chatId,{
             latestMessages: message,
         });
-        // console.log(temp);
         res.json(message);
     } catch (error) {
         res.status(400)
