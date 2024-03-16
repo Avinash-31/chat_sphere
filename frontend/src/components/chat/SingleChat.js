@@ -8,14 +8,22 @@ import UpdateGroupChatModal from './UpdateGroupChatModal';
 import axios from 'axios';
 import '../../styles/messages.css';
 import ScrollableChat from './ScrollableChat';
+import io from 'socket.io-client';
+
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const { user, selectedChat, setSelectedChat } = ChatState();
     const [messages, setMessages] = useState([]);  // for stpring the fetched chats
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState();
+    const [socketConnection, setSocketConnection] = useState(false);
 
     const toast = useToast();
+
+
+   
 
     const fetchMessages = async () => {
         if (!selectedChat) {
@@ -36,6 +44,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             console.log(messages);
             setMessages(data);
             setLoading(false);
+            socket.emit("joinChat", selectedChat._id);
         } catch (error) {
             toast({
                 title: "Error in fetching the messages",
@@ -48,9 +57,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         }
     };
 
-    useEffect(()=>{
-        fetchMessages();
-    },[selectedChat]);
+
+
 
     const sendMessage = async (e) => {
         if (e.key === "Enter" && newMessage) {
@@ -64,9 +72,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 };
                 setNewMessage(""); // since it is an asynchrounous function so newMessage wont be changed
                 const { data } = await axios.post('/api/message',
-                { content: newMessage, chatId: selectedChat }, config);
-                setMessages([...messages, data]);
+                    { content: newMessage, chatId: selectedChat }, config);
                 console.log(data);
+                socket.emit("newMessage", data);
+                setMessages([...messages, data]);
             } catch (error) {
                 toast({
                     title: "Error in sending the message",
@@ -79,6 +88,29 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             }
         }
     };
+
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("setup", user);
+        socket.on("connection", () => setSocketConnection(true));
+    }, [])
+
+    useEffect(() => {
+        fetchMessages();
+        selectedChatCompare = selectedChat;
+    }, [selectedChat]);
+
+    useEffect(() => {
+        socket.on("messageReceived", (newMessageRecieved) => {
+            if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id) {
+                // give notification
+            }
+            else {
+                setMessages([...messages, newMessageRecieved]);
+            }
+        })
+    })
+
     const typingHandler = (e) => {
         setNewMessage(e.target.value);
 
@@ -135,7 +167,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                     icon={<ArrowBackIcon />}
                                     onClick={() => setSelectedChat("")}
                                 ></IconButton>
-                                {selectedChat.chatName}<UpdateGroupChatModal fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} /></>}
+                                {selectedChat.chatName}<UpdateGroupChatModal fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} fetchMessages={fetchMessages} /></>}
 
                         </Text>
 
