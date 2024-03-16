@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChatState } from '../../context/ChatProvider';
 import { Box, FormControl, IconButton, Input, Spinner, Text, useToast } from '@chakra-ui/react';
 import { ArrowBackIcon, SettingsIcon } from '@chakra-ui/icons';
@@ -6,17 +6,54 @@ import { GetSender, GetSenderData } from '../../config/ChatLogic'; // Modified i
 import InfoModal from './InfoModal';
 import UpdateGroupChatModal from './UpdateGroupChatModal';
 import axios from 'axios';
+import '../../styles/messages.css';
+import ScrollableChat from './ScrollableChat';
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const { user, selectedChat, setSelectedChat } = ChatState();
-    const [messages, setMessage] = useState([]);  // for stpring the fetched chats
+    const [messages, setMessages] = useState([]);  // for stpring the fetched chats
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState();
-    
+
     const toast = useToast();
 
+    const fetchMessages = async () => {
+        if (!selectedChat) {
+            return;
+        }
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                },
+            };
+            setLoading(true);
+            // console.log("Fetch MEssages");
+            const { data } = await axios.get(
+                `/api/message/${selectedChat._id}`,
+                config
+            );
+            console.log(messages);
+            setMessages(data);
+            setLoading(false);
+        } catch (error) {
+            toast({
+                title: "Error in fetching the messages",
+                description: error.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "top"
+            })
+        }
+    };
+
+    useEffect(()=>{
+        fetchMessages();
+    },[selectedChat]);
+
     const sendMessage = async (e) => {
-        if (e.key == "Enter" && newMessage) {
+        if (e.key === "Enter" && newMessage) {
             // Send the message
             try {
                 const config = {
@@ -27,17 +64,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 };
                 setNewMessage(""); // since it is an asynchrounous function so newMessage wont be changed
                 const { data } = await axios.post('/api/message',
-                    { content: newMessage, chatId: selectedChat._id }, config);
-                setMessage([...messages,data]);
+                { content: newMessage, chatId: selectedChat }, config);
+                setMessages([...messages, data]);
                 console.log(data);
             } catch (error) {
                 toast({
-                    title : "Error in sending the message",
-                    description : error.message,
-                    status : "error",
-                    duration : 5000,
-                    isClosable : true,
-                    position : "top"
+                    title: "Error in sending the message",
+                    description: error.message,
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top"
                 })
             }
         }
@@ -136,8 +173,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             </>
                         ) : (
                             <>
-                                <Text></Text>
-
+                                <div className='messages'>
+                                    <ScrollableChat messages={messages}></ScrollableChat>
+                                </div>
                             </>
                         )}
                         <FormControl onKeyDown={sendMessage} isRequired marginTop='1rem'>
