@@ -177,7 +177,9 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
         <IconButton
             display={{ base: 'flex', md: 'flex' }}
             height='100%'
-            bg='white'
+            bg='rgba(0, 0, 0,0)'
+            color='white'
+            _hover={{ bg: 'rgba(0, 0, 0, 0.5)' }}
             icon={<SettingsIcon />}
             onClick={onOpen}
         ></IconButton>

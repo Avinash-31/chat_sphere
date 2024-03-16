@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ChatState } from '../../context/ChatProvider';
-import { Box, IconButton, Text } from '@chakra-ui/react';
+import { Box, FormControl, IconButton, Input, Spinner, Text } from '@chakra-ui/react';
 import { ArrowBackIcon, SettingsIcon } from '@chakra-ui/icons';
 import { GetSender, GetSenderData } from '../../config/ChatLogic'; // Modified import statement
 import InfoModal from './InfoModal';
@@ -8,7 +8,12 @@ import UpdateGroupChatModal from './UpdateGroupChatModal';
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const { user, selectedChat, setSelectedChat } = ChatState();
+    const [messages, setMessage] = useState([]);  // for stpring the fetched chats
+    const [loading, setLoading] = useState(false);
+    const [newMessage, setNewMessage] = useState();
 
+    const sendMessage = (e) => { };
+    const typingHandler = (e) => { };
     return (
         <>
             {selectedChat ? (
@@ -54,6 +59,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                     display={{ base: 'flex', md: 'flex' }}
                                     height='100%'
                                     bg='rgba(0, 0, 0,0)'
+                                    color='white'
+                                    _hover={{ bg: 'rgba(0, 0, 0, 0.5)' }}
                                     borderRadius='lg'
                                     icon={<ArrowBackIcon />}
                                     onClick={() => setSelectedChat("")}
@@ -79,8 +86,46 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                         left='1%'
                         px={3}
                         h='100%'
+                        color='white'
                         overflowY='hidden'
                     >
+                        {loading ? (
+                            <>
+                                <Spinner
+                                    size='xl'
+                                    thickness='3px'
+                                    speed='0.65s'
+                                    emptyColor='rgba(0,0,0,0.5)'
+                                    color='grey.200'
+                                    backdropFilter='blur(25px)'
+                                    alignSelf='center'
+                                    margin='auto' />
+                            </>
+                        ) : (
+                            <>
+                                <Text></Text>
+
+                            </>
+                        )}
+                        <FormControl onKeyDown={sendMessage} isRequired marginTop='1rem'>
+                            <Input
+                                variant='filled'
+                                bg='rgba(0, 0, 0,0.1)'
+                                boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+                                backdropFilter='blur(25px)'
+                                border='1px solid rgba(0, 0, 0, 0.1)'
+                                position='relative'
+                                top='1rem'
+                                placeholder='Enter a message to send'
+                                onChange={typingHandler}
+                                value={newMessage}
+                                _hover={{ bg: 'rgba(0, 0, 0,0.5)' }}
+                                _focus={{ bg: 'rgba(0, 0, 0,1)' }}
+                                _focusVisible={{
+                                    outline: "none",
+                                }}
+                            ></Input>
+                        </FormControl>
                     </Box>
 
                 </>
