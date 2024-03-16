@@ -1,19 +1,52 @@
 import React, { useState } from 'react';
 import { ChatState } from '../../context/ChatProvider';
-import { Box, FormControl, IconButton, Input, Spinner, Text } from '@chakra-ui/react';
+import { Box, FormControl, IconButton, Input, Spinner, Text, useToast } from '@chakra-ui/react';
 import { ArrowBackIcon, SettingsIcon } from '@chakra-ui/icons';
 import { GetSender, GetSenderData } from '../../config/ChatLogic'; // Modified import statement
 import InfoModal from './InfoModal';
 import UpdateGroupChatModal from './UpdateGroupChatModal';
+import axios from 'axios';
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const { user, selectedChat, setSelectedChat } = ChatState();
     const [messages, setMessage] = useState([]);  // for stpring the fetched chats
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState();
+    
+    const toast = useToast();
 
-    const sendMessage = (e) => { };
-    const typingHandler = (e) => { };
+    const sendMessage = async (e) => {
+        if (e.key == "Enter" && newMessage) {
+            // Send the message
+            try {
+                const config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${user.token}`
+                    },
+                };
+                setNewMessage(""); // since it is an asynchrounous function so newMessage wont be changed
+                const { data } = await axios.post('/api/message',
+                    { content: newMessage, chatId: selectedChat._id }, config);
+                setMessage([...messages,data]);
+                console.log(data);
+            } catch (error) {
+                toast({
+                    title : "Error in sending the message",
+                    description : error.message,
+                    status : "error",
+                    duration : 5000,
+                    isClosable : true,
+                    position : "top"
+                })
+            }
+        }
+    };
+    const typingHandler = (e) => {
+        setNewMessage(e.target.value);
+
+        // Typing indicator
+    };
     return (
         <>
             {selectedChat ? (
