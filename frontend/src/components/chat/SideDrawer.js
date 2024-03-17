@@ -7,6 +7,8 @@ import ProfileModal from './ProfileModal';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
 import UserListItem from '../UserAvatar/UserListItem';
+import { GetSender } from '../../config/ChatLogic';
+import NotificationBadge, { Effect } from 'react-notification-badge';
 
 const SideDrawer = () => {
     const [search, setSearch] = useState("");
@@ -17,7 +19,7 @@ const SideDrawer = () => {
     const btnRef = React.useRef()
     const history = useHistory();
     const toast = useToast();
-    const { user, setSelectedChat, chats, setChats } = ChatState();
+    const { user, setSelectedChat, chats, setChats, notification, setNotification } = ChatState();
 
     // logout
     const logoutHandler = () => {
@@ -122,9 +124,40 @@ const SideDrawer = () => {
                     <MenuButton
                         color='white'
                         p={2}>
+                        <NotificationBadge count={notification.length} effect = {Effect.sclae} />
                         <BellIcon fontSize='2xl' m={2} />
                     </MenuButton>
-                    {/* <MenuList></MenuList> */}
+                    <MenuList
+                        style={{
+                            position: 'relative',
+                            top: '-3.5rem',
+                            right: '2.5rem'
+                        }}
+                        pl={2}
+                        bg='rgba(0, 0, 0, 0)'
+                        boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+                        backdropFilter='blur(25px)'
+                        border='1px solid rgba(0, 0, 0, 0.1)'
+                        color='white'
+                        display='flex'
+                    >
+                        {!notification.length && "No new message"}
+                        {notification.map((notif) => (
+                            <MenuItem
+                                bg='rgba(0, 0, 0, 0)'
+                                boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+                                backdropFilter='blur(25px)'
+                                border='1px solid rgba(0, 0, 0, 0.1)'
+                                color='white'
+                                key={notif._id} onClick={() => {
+                                    setSelectedChat(notif.chat);
+                                    setNotification(notification.filter((n) => notif !== n));
+                                }}>
+
+                                {notif.chat.isGroupChat ? `${notif.chat.chatName}` : `${GetSender(user, notif.chat.users)}`}
+                            </MenuItem>
+                        ))}
+                    </MenuList>
                 </Menu>
                 <Menu>
                     <MenuButton
