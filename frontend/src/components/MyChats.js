@@ -7,7 +7,7 @@ import ChatLoading from './chat/ChatLoading';
 import { GetSender } from '../config/ChatLogic';
 import GroupChatModal from './chat/GroupChatModal';
 
-const MyChats = ({ fetchChats }) => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, chats, setChats, user, setSelectedChat } = ChatState();
   const toast = useToast();
@@ -40,7 +40,15 @@ const MyChats = ({ fetchChats }) => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     getChats();
-  }, [fetchChats])
+
+    // Polling: Fetch chats every 5 seconds
+    const intervalId = setInterval(() => {
+      getChats();
+    }, 100);
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [fetchAgain])
 
   return <Box
     display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
@@ -119,7 +127,8 @@ const MyChats = ({ fetchChats }) => {
               </Text>
               {chat.latestMessages && (
                 <Text fontSize="xs" display='flex'>
-                  <b>{chat.latestMessages.sender.name} : </b>
+                  <b>
+                    {chat.latestMessages.sender.name === user.name ? "You" : chat.latestMessages.sender.name}: </b>
                   {chat.latestMessages.content.length > 50
                     ? chat.latestMessages.content.substring(0, 51) + "..."
                     : chat.latestMessages.content}

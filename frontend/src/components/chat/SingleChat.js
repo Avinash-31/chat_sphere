@@ -88,7 +88,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 setNewMessage(""); // since it is an asynchrounous function so newMessage wont be changed
                 const { data } = await axios.post('/api/message',
                     { content: newMessage, chatId: selectedChat }, config);
-                console.log(data);
+                // console.log(data);
                 socket.emit("newMessage", data);
                 setMessages([...messages, data]);
             } catch (error) {

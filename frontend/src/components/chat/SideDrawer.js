@@ -140,6 +140,8 @@ const SideDrawer = () => {
                         border='1px solid rgba(0, 0, 0, 0.1)'
                         color='white'
                         display='flex'
+                        flexDir='row'
+                        overflowX={{ base: 'scroll', md: 'scroll' }}
                     >
                         {!notification.length && "No new message"}
                         {notification.map((notif) => (

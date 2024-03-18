@@ -65,12 +65,6 @@
   outline: none;
 }
 
-.css-1idwstw {
-  background-color: 'rgba(0, 0, 0, 0,1)';
-  box-shadow:'0 4px 30px rgba(0, 0, 0, 1)';
-  backdrop-filter : 'blur(25px)';
-  border:1px solid rgba(0, 0, 0, 0.1);
-}
 
 *:focus {
   outline: none;

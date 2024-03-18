@@ -104,7 +104,8 @@ const Signup = () => {
         });
         localStorage.setItem("userInfo", JSON.stringify(data));
         setLoading(false);
-        history.push('/chat');
+        // history.push('/chat');
+        window.location.href = '/chat';
       } catch (error) {
         console.log(error);
         toast({
