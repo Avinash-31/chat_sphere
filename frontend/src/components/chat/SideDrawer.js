@@ -112,11 +112,11 @@ const SideDrawer = () => {
             <Tooltip label="Search users to chat" hasArrow placement='bottom'>
                 <Button ref={btnRef} color='white' onClick={onOpen} variant="ghost" _hover={{ bg: 'rgba(0, 0, 0, 0.1)' }}>
                     <i className="fa fa-search" aria-hidden="true"></i>
-                    <Text color='white' d={{ base: "none", md: "flex" }} px={4} fontSize='1.5xl'>Search User</Text> {/* in small screens Search will not be visible */}
+                    <Text color='white' display={{ base: "none", md: "flex" }} px={4} fontSize='1.5xl'>Search User</Text> {/* in small screens Search will not be visible */}
                 </Button>
             </Tooltip>
 
-            <Text color='white' fontSize='3xl' fontFamily='monoton'>
+            <Text color='white' fontSize={{base:"1rem", md:"2rem"}} fontFamily='monoton'>
                 Chat Sphere
             </Text>
             <div>
