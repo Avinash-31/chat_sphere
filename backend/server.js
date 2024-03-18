@@ -6,6 +6,7 @@ const colors = require("colors");
 const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const path = require('path');
 
@@ -32,6 +33,7 @@ const PORT = process.env.PORT || 5000;
 app.use('/api/user', userRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
+app.use('/api/notification',notificationRoutes);
 
 // Deployment
 

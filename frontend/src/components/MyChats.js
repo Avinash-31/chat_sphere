@@ -104,17 +104,28 @@ const MyChats = ({ fetchChats }) => {
               px={3}
               py={2}
               display='flex'
+              flexDir='column'
               justifyContent='center'
               key={chat._id}
               borderRadius='lg'
               bg={selectedChat === chat ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0,0,0,0)'}
               backdropFilter='blur(25px)'
               border='1px solid rgba(0, 0, 0, 0.1)'
-              _hover={{ bg: 'rgba(0, 0, 0, 0.5)', color: 'white' }} 
+              _hover={{ bg: 'rgba(0, 0, 0, 0.5)', color: 'white' }}
             >
               <Text>
                 {!chat.isGroupChat ? user && GetSender(loggedUser, chat.users) : chat.chatName}
+
               </Text>
+              {chat.latestMessages && (
+                <Text fontSize="xs" display='flex'>
+                  <b>{chat.latestMessages.sender.name} : </b>
+                  {chat.latestMessages.content.length > 50
+                    ? chat.latestMessages.content.substring(0, 51) + "..."
+                    : chat.latestMessages.content}
+                </Text>
+              )}
+
             </Box>
           ))}
         </Stack>
