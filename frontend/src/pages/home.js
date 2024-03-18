@@ -36,8 +36,8 @@ const Home = () => {
         // Additional logic for rendering tabs and handling state can be added here
 
         return (
-            <Box>
-                <Tabs align='center' isFitted variant='enclosed'>
+            <Box >
+                <Tabs align='center' isFitted variant='' color='white'>
                     <TabList>
                         <CustomTab className="authButton">Log-in</CustomTab>
                         <CustomTab className="authButton">Sign-Up</CustomTab>
@@ -60,13 +60,13 @@ const Home = () => {
     return (
         <Container maxW='xl' centerContent>
             <Box
+                bg='rgba(0, 0, 0, 0)'
+                boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+                backdropFilter='blur(25px)'
+                border='1px solid rgba(0, 0, 0, 0.1)'
                 display="flex"
                 justifyContent="center"
                 p={3}
-                bg='#d8d8d854'
-                boxShadow='0 4px 30px rgba(0, 0, 0, 0.1)'
-                backdropBlur={5}
-                border='1px solid #d8d8d854'
                 w="100%"
                 m="40px 0 15px 0"
                 borderRadius="lg"
@@ -76,10 +76,12 @@ const Home = () => {
                     Chat Sphere
                 </Text>
             </Box>
-            <Box bg='#d8d8d854'
-                boxShadow='0 4px 30px rgba(0, 0, 0, 0.1)'
+            <Box
+                bg='rgba(0, 0, 0, 0)'
+                boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+                backdropFilter='blur(25px)'
+                border='1px solid rgba(0, 0, 0, 0.1)'
                 backdropBlur={5}
-                border='1px solid #d8d8d854'
                 w="100%"
                 p={4}
                 borderRadius="lg"

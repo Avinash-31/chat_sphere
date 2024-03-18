@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [show, setShow] = useState(false);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
   const history = useHistory();
 
@@ -18,7 +18,7 @@ const Login = () => {
 
   const submitHandler = async () => {
     setLoading(true);
-    if(!email || !password){
+    if (!email || !password) {
       toast({
         title: 'Please enter all the details!.',
         status: 'warning',
@@ -32,51 +32,51 @@ const Login = () => {
 
     try {
       const config = {
-        header : {
-          "Content-type" : "application/json",
+        header: {
+          "Content-type": "application/json",
         },
       };
 
-      const {data} = await axios.post("/api/user/login",{email,password},config);
+      const { data } = await axios.post("/api/user/login", { email, password }, config);
 
       toast({
-        title : "Logged in successfully",
-        description : `Welcome ${data.name}`,
-        status : "success",
-        duration : 5000,
-        isClosable : true,
+        title: "Logged in successfully",
+        description: `Welcome ${data.name}`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
       });
 
-      localStorage.setItem("userInfo",JSON.stringify(data));
+      localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       history.push('/chat');
     } catch (error) {
       toast({
-        title : "Invalid Credentials",
-        description : `Error : ${error}`,
-        status : "warning",
-        duration : 5000,
-        isClosable : true,
-        position : "top",
+        title: "Invalid Credentials",
+        description: `Error : ${error}`,
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
       });
       setLoading(false);
     }
   };
 
-  const guestClick = () =>{
+  const guestClick = () => {
     setEmail("guest@example.com");
     setPassword("12345");
   }
 
 
-  return <VStack spacing='5px' color='black'>
+  return <VStack spacing='5px' color='white' >
 
     <FormControl id='email' isRequired>
       <FormLabel>Email</FormLabel>
       <Input
         type='email'
         placeholder='Enter your email'
-        value = {email}
+        value={email}
         onChange={(e) => setEmail(e.target.value)}
       >
       </Input>
@@ -89,7 +89,7 @@ const Login = () => {
         <Input
           type={show ? "text" : "password"}
           placeholder='Enter your password'
-          value = {password}
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         >
         </Input>
@@ -102,7 +102,12 @@ const Login = () => {
     </FormControl>
 
     <Button
-      colorScheme='blue'
+      color='white'
+      bg='rgba(0, 0, 0, 0)'
+      boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+      backdropFilter='blur(25px)'
+      border='1px solid rgba(0, 0, 0, 0.1)'
+      _hover={{ bg: 'rgba(0, 0, 0, 0.5)' }}
       width='100%'
       style={{ marginTop: 15 }}
       onClick={submitHandler}
@@ -113,11 +118,16 @@ const Login = () => {
     </Button>
 
     <Button
-      colorScheme='red'
+      color='white'
       width='100%'
       variant="solid"
       style={{ marginTop: 15 }}
       onClick={guestClick}
+      _hover={{bg :"rgba(0, 0, 0, 0.5)"}}
+      bg='rgba(0, 0, 0, 0)'
+      boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+      backdropFilter='blur(25px)'
+      border='1px solid rgba(0, 0, 0, 0.1)'
     >
       Get guest user credentials
 

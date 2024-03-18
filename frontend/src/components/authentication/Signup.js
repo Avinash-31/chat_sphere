@@ -120,18 +120,18 @@ const Signup = () => {
     } catch (error) {
       toast({
         title: 'Error occured during sigup! Please try again',
-        description:`${error}`,
+        description: `${error}`,
         status: 'warning',
         position: 'top',
-        isClosable : true,
-        duration : 9000,
+        isClosable: true,
+        duration: 9000,
       });
       setLoading(false);
     };
 
   };
 
-  return <VStack spacing='5px' color='black'>
+  return <VStack spacing='5px' color='white'>
 
     <FormControl id='name' isRequired>
       <FormLabel>Name</FormLabel>
@@ -202,11 +202,16 @@ const Signup = () => {
     </FormControl>
 
     <Button
-      colorScheme='blue'
       width='100%'
       style={{ marginTop: 15 }}
       onClick={submitHandler}
       isLoading={loading}
+      color='white'
+      bg='rgba(0, 0, 0, 0)'
+      boxShadow='0 4px 30px rgba(0, 0, 0, 1)'
+      backdropFilter='blur(25px)'
+      border='1px solid rgba(0, 0, 0, 0.1)'
+      _hover={{ bg: 'rgba(0, 0, 0, 0.5)' }}
     >
       Sign Up
 

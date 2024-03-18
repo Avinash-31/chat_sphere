@@ -28,15 +28,16 @@ const ProfileModal = ({ user, children }) => {
                     setOverlay(<OverlayOne />)
                     onOpen()
                 }}
+                
             >
                 Profile
             </Button>
             <Modal isCentered isOpen={isOpen} onClose={onClose}>
                 {overlay}
-                <ModalContent>
-                    <Card width='100%'>
+                <ModalContent >
+                    <Card  width='100%'>
                         <ModalCloseButton margin='-0.75rem -1rem' />
-                        <CardBody>
+                        <CardBody >
                             <Image
                                 src={user.pic}
                                 alt='{user.name}'
