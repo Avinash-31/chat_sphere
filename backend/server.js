@@ -67,7 +67,8 @@ const server = app.listen(5000, console.log(`Server running on port ${PORT}`.yel
 const io = require('socket.io')(server, {
     pingTimeout: 60000, // 60 seconds without a pong message from the client will cause the server to consider the connection closed
     cors: {
-        origin: "http://localhost:3000",
+        origin: "*",
+        //add other origin as well
         // credentials : true
     },
 });

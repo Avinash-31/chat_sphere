@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Spinner, Text, Toast, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
-import { BellIcon, ChevronDownIcon, ChevronLeftIcon } from '@chakra-ui/icons';
+import { BellIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react'
 import { ChatState } from '../../context/ChatProvider';
 import ChatLoading from '../chat/ChatLoading';
